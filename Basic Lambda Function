@@ -22,3 +22,40 @@ exports.handler = function(event, context, callback) {
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
+
+
+//Greg's version
+'use strict';
+
+const Alexa = require('alexa-sdk');
+
+const SKILL_NAME = 'Steam Store';
+const HELP_MESSAGE = 'You can search for a game by name, and then ask for the price, or you can say exit';
+const STOP_MESSAGE = 'Goodbye';
+const WELCOME = 'Welcome to Steam Store, what would you like to do?';
+
+const handlers = {
+    'LaunchRequest': function () {
+        this.emit('Steam_Store');
+    },
+    'Steam_Store': function () {
+        this.emit(':tell', 'Welcome to Steam Store, what would you like to do?');
+    },
+    'AMAZON.HelpIntent': function () {
+        const speechOutput = 'You can search for a game by name, and then ask for the price, or you can say exit';
+        const reprompt = 'You can search for a game by name, and then ask for the price, or you can say exit';
+        this.emit(':ask', speechOutput, reprompt);
+    },
+    'AMAZON.CancelIntent': function () {
+        this.emit(':tell', 'Goodbye');
+    },
+    'AMAZON.StopIntent': function () {
+        this.emit(':tell', 'Goodbye');
+    },
+};
+
+exports.handler = function(event, context, callback) {
+    const alexa = Alexa.handler(event, context, callback);
+    alexa.registerHandlers(handlers);
+    alexa.execute();
+};
