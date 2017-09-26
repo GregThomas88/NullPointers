@@ -1,3 +1,11 @@
+/*
+Helpful Links
+https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs
+http://tobuildsomething.com/2015/08/14/Amazon-Alexa-JavaScript-SDK-The-Ultimate-Guide/
+https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/handling-requests-sent-by-alexa#launchrequest
+*/
+
+
 //Chris's version
 'use strict';
 
