@@ -4,7 +4,7 @@ const Alexa = require('alexa-sdk');
 
 const handlers = {
     'LaunchRequest': function () {
-        this.emit('Welcome to the Steam Store skill.');
+        this.emit(':tell','Welcome to the Steam Store skill.');
     },
     'AMAZON.HelpIntent': function () {
         this.emit(':ask', 'You can say ask me to look up a game, or, you can say exit... What can I help you with?', 'What can I help you with?');
@@ -18,7 +18,7 @@ const handlers = {
 };
 
 exports.handler = function(event, context, callback) {
-    var alexa = Alexa.handler(event, context, callback);
+    const alexa = Alexa.handler(event, context, callback);
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
