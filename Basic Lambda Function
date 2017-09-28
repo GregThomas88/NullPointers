@@ -40,7 +40,7 @@ const Alexa = require('alexa-sdk');
 
 const handlers = {
     'LaunchRequest': function () {
-        this.emit(':ask','Welcome to the Steam Store skill, what would you like to do?');
+        this.emit(':ask','Welcome to the Steam Store skill, what would you like to do?', 'You can recieve help if needed');
     },
     'AMAZON.HelpIntent': function () {
         this.emit(':ask', 'Ask me to look up a game, or, you can say exit... What can I help you with?', 'What can I help you with?');
@@ -51,10 +51,10 @@ const handlers = {
     'AMAZON.StopIntent': function () {
         this.emit(':tell', 'Goodbye!');
     },
-    'SearchGameIntent': function() {
-        this.emit(':ask', '')
+    'SearchGameIntent': function () {
+        this.emit('ask', 'What game would you like to find?', 'Please name a game');
     },
-    }
+    //Won't this save the gameName, how do we utilize that variable from the developer?
 };
 
 exports.handler = function(event, context, callback) {
