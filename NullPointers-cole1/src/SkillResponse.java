@@ -49,6 +49,12 @@ public class SkillResponse implements Speechlet {
 
         else if ("CategorySearchIntent".equals(intentName))
           return category_search(intent);
+                
+        else if ("TopFiveFiveIntent".equals(intentName))
+            return TopTen5DollarGames();
+        
+        else if ("TopTenTenIntent".equals(intentName))
+            return TopTen10DollarGames();
 
         else if ("SteamSearchIntent".equals(intentName))
           return steam_search(intent);
@@ -94,7 +100,22 @@ public class SkillResponse implements Speechlet {
       String text = String.format("The top %s game is %s.",category_name,game);
       return respond_with(text);
     }
-
+    
+    private SpeechletResponse TopTen5DollarGames() {
+        return respond_with("Games found");
+        String game = SteamAPI.TopTen5DollarGames();
+        String text = String.format("The top 5 dollar game is %s.",game);
+        return respond_with(text);
+    }
+    
+    private SpeechletResponse TopTenTenIntent() {
+        return respond_with("Games found");
+        String game = SteamAPI.TopTen10DollarGames();
+        String text = String.format("The top 10 dollar game is %s.",game);
+        return respond_with(text);
+    }
+    
+    
     /**
      * Creates and returns a {@code SpeechletResponse} with a welcome message.
      *
