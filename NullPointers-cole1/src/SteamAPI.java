@@ -42,7 +42,7 @@ public class SteamAPI {
   private static String action_search( void ) throws IOException {
     Document doc = Jsoup.connect("http://store.steampowered.com/tag/en/Action/#p=0&tab=TopSellers").get();
     String[] name = doc.select("div.col.tab_item_name").text();
-    return name;
+    return name.first();
   }
 
 
