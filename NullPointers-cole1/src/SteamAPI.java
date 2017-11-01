@@ -28,7 +28,7 @@ public class SteamAPI {
     public static String search_category(String category){
         try {
             if( category == "action" ) {
-                return action_search( void );
+                return action_search(  );
             }
             else {
                 return "category not found";
@@ -39,22 +39,28 @@ public class SteamAPI {
     }
 
 
-    private static String action_search( void ) throws IOException {
-        Document doc = Jsoup.connect("http://store.steampowered.com/tag/en/Action/#p=0&tab=TopSellers").get();
-        String[] name = doc.select("div.col.tab_item_name").text();
-        return name.first();
+    private static String action_search(  ) {
+    	try {
+        	Document doc = Jsoup.connect("http://store.steampowered.com/tag/en/Action/#p=0&tab=TopSellers").get();
+        	String name = doc.select("div.col.tab_item_name").first().text();
+        	return name;
+    	}
+    	catch (IOException e) {
+    		return "action error";
+    	}
+        
     }
 
-    private static String TopTen5DollarGames ( void ) throws IOException {
+    public static String TopTen5DollarGames (  ) {
         Document doc = Jsoup.connect("http://store.steampowered.com/search/?filter=ut2").get();
-        String[] name = doc.select("div.col.tab_item_name").text();
-        return name.first();
+        String name = doc.select("div.col.tab_item_name").first().text();
+        return name;
     }
     
-    private static String TopTen10DollarGames ( void ) throws IOException {
+    public static String TopTen10DollarGames (  ) {
         Document doc = Jsoup.connect("http://store.steampowered.com/search/?filter=ut1").get();
-        String[] name = doc.select("div.col.tab_item_name").text();
-        return name.first();
+        String name = doc.select("div.col.tab_item_name").first().text();
+        return name;
     }
 
 
