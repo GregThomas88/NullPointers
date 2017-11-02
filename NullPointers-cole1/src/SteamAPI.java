@@ -26,24 +26,23 @@ public class SteamAPI {
 
 
     public static String search_category(String category){
-        try {
-            if( category == "action" ) {
-                return action_search(  );
-            }
-            else {
-                return "category not found";
-            }
-        } catch (IOException e) {
-            return "category error";
+
+        if( category.equals("action")) {
+            return action_search(  );
         }
+        else {
+            return "category not found";
+        }
+
     }
 
 
     private static String action_search(  ) {
     	try {
         	Document doc = Jsoup.connect("http://store.steampowered.com/tag/en/Action/#p=0&tab=TopSellers").get();
-        	String name = doc.select("div.col.tab_item_name").first().text();
+        	String name = doc.select("div.col.TopSellersTable.TopSellersRows.tab_item_content.tab_item_name").first().text();  // doc.select("div.col.tab_item_name").first().text();
         	return name;
+        	//return "hello";
     	}
     	catch (IOException e) {
     		return "action error";
@@ -52,15 +51,27 @@ public class SteamAPI {
     }
 
     public static String TopTen5DollarGames (  ) {
-        Document doc = Jsoup.connect("http://store.steampowered.com/search/?filter=ut2").get();
-        String name = doc.select("div.col.tab_item_name").first().text();
-        return name;
+    	try {
+    		Document doc = Jsoup.connect("http://store.steampowered.com/search/?filter=ut2").get();
+        	String name = doc.select("div.col.tab_item_name").first().text();
+        	return name;
+    	}
+    	catch (IOException e) {
+    		return "top 5 dollar games error";
+    	}
+        
     }
     
     public static String TopTen10DollarGames (  ) {
-        Document doc = Jsoup.connect("http://store.steampowered.com/search/?filter=ut1").get();
-        String name = doc.select("div.col.tab_item_name").first().text();
-        return name;
+    	try {
+    		Document doc = Jsoup.connect("http://store.steampowered.com/search/?filter=ut1").get();
+        	String name = doc.select("div.col.tab_item_name").first().text();
+        	return name;
+    	}
+    	catch (IOException e) {
+    		return "top 10 dollar games error";
+    	}
+        
     }
 
 

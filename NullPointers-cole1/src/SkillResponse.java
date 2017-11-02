@@ -89,7 +89,7 @@ public class SkillResponse implements Speechlet {
     private SpeechletResponse steam_search(Intent intent) {
       String game_name = intent.getSlot("GameName").getValue();
       String price = SteamAPI.search(game_name);
-      String text = String.format("On test Steam, %s costs %s.",game_name,price);
+      String text = String.format("On Steam, %s costs %s.",game_name,price);
       return respond_with(text);
     }
 
