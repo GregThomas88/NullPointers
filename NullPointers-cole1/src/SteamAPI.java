@@ -88,7 +88,19 @@ public class SteamAPI {
 
     public static String narrow_search( String mainCategory, String category ) {
     	if( category.equals("free to play") ) {
-    		return narrow_search2( mainCategory, "tag%5B%5D=113&" );
+    		return narrow_search2( mainCategory, "tag%5B%5D=113&" ); 
+    	}
+      else if( category.equals("indie") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=492&" ); 
+    	}
+      else if( category.equals("action") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=19&" ); 
+    	}
+      else if( category.equals("adventure") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=21&" ); 
+    	}
+      else if( category.equals("RPG") || category.equals("role playing game")) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=122&" ); 
     	}
     	else {
     		return "CategoryNotFound";
