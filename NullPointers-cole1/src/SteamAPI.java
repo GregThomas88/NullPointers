@@ -132,6 +132,18 @@ public class SteamAPI {
       else if( category.equals("great soundtrack") ) {
     		return narrow_search2( mainCategory, "tag%5B%5D=1756&" ); 
     	}
+      else if( category.equals("coop") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=1685&" ); 
+    	}
+      else if( category.equals("f.p.s.") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=1663&" ); 
+    	}
+      else if( category.equals("open world") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=1695&" ); 
+    	}
+      else if( category.equals("atmospheric") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=4166&" ); 
+    	}
     	else {
     		return "CategoryNotFound";
     	}
