@@ -59,6 +59,9 @@ public class SkillResponse implements Speechlet {
         else if ("SteamSearchIntent".equals(intentName))
           return steam_search(intent);
 
+        else if ("AssistanceIntent".equals(intentName))
+          return respond_with("You can search for a game price, or you can find the top ten dollar game, the top five dollar game, or you can search by category.");
+
         else if ("AMAZON.HelpIntent".equals(intentName))
           return respond_with("Ask me how much a game costs");
 
@@ -96,8 +99,15 @@ public class SkillResponse implements Speechlet {
     private SpeechletResponse search_category(Intent intent) {
       String category_name = intent.getSlot("CategoryName").getValue();
       String game = SteamAPI.search_category(category_name);
-      String text = String.format("The top %s game is %s.",category_name,game);
-      return respond_with(text);
+      if( game.equals("CategoryNotFound") ) {
+        String text = String.format("I'm sorry, I could not find a %s category", category_name);
+          return respond_with(text);
+      }
+      else {
+        String text = String.format("The top %s game is %s.",category_name,game);
+        return respond_with(text);
+      }
+      
     }
     
     private SpeechletResponse TopTen5DollarGames() {
@@ -119,7 +129,7 @@ public class SkillResponse implements Speechlet {
      * @return SpeechletResponse spoken and visual response for the given intent
      */
     private SpeechletResponse getWelcomeResponse() {
-        String speechText = "Welcome to the steam store, what would you like to do?";
+        String speechText = "Welcome to the steam store, what would you like to do? If you are unsure what to do, ask for help.";
 
         // Create the Simple card content.
         SimpleCard card = new SimpleCard();

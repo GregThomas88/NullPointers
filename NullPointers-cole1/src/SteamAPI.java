@@ -28,21 +28,57 @@ public class SteamAPI {
     public static String search_category(String category){
 
         if( category.equals("action")) {
-            return action_search(  );
+            return action_search( "Action" );
+        }
+        else if( category.equals("adventure")) {
+            return action_search( "Adventure" );
+        }
+        else if( category.equals("indie")) {
+            return action_search( "Indie" );
+        }
+        else if( category.equals("casual")) {
+            return action_search( "Casual" );
+        }
+        else if( category.equals("massively multiplayer")) {
+            return action_search( "Massively Multiplayer" );
+        }
+        else if( category.equals("racing")) {
+            return action_search( "Racing" );
+        }
+        else if( category.equals("r.p.g.")) {
+            return action_search( "RPG" );
+        }
+        else if( category.equals("simulation")) {
+            return action_search( "Simulation" );
+        }
+        else if( category.equals("sports")) {
+            return action_search( "Sports" );
+        }
+        else if( category.equals("strategy")) {
+            return action_search( "Strategy" );
+        }
+        else if( category.equals("sexy")) {
+            return action_search( "Sexy" );
         }
         else {
-            return "category not found";
+            return action_search( category ); //"category not found two"; //
         }
 
     }
 
 
-    private static String action_search(  ) {
+    private static String action_search( String category ) {
     	try {
-        	Document doc = Jsoup.connect("http://store.steampowered.com/tag/en/Action/#p=0&tab=TopSellers").get();
-        	String name = doc.select("div.col.TopSellersTable.TopSellersRows.tab_item_content.tab_item_name").first().text();  // doc.select("div.col.tab_item_name").first().text();
-        	return name;
-        	//return "hello";
+        	Document doc = Jsoup.connect("http://store.steampowered.com/tag/en/" + category + "/#p=0&tab=TopSellers").get();
+        	String name = doc.select("div.tab_item_name").first().text(); //doc.select("div.col.TopSellersTable.TopSellersRows.tab_item_content.tab_item_name").first().text();  // 
+        	
+ 
+        	if( doc.location().equals("http://store.steampowered.com/") ) {
+        		return "CategoryNotFound";
+        	}
+        	else { 
+        		return name;
+        	}
     	}
     	catch (IOException e) {
     		return "action error";
@@ -53,7 +89,7 @@ public class SteamAPI {
     public static String TopTen5DollarGames (  ) {
     	try {
     		Document doc = Jsoup.connect("http://store.steampowered.com/search/?filter=ut2").get();
-        	String name = doc.select("div.col.tab_item_name").first().text();
+        	String name = doc.select("span.title").first().text();
         	return name;
     	}
     	catch (IOException e) {
@@ -65,7 +101,7 @@ public class SteamAPI {
     public static String TopTen10DollarGames (  ) {
     	try {
     		Document doc = Jsoup.connect("http://store.steampowered.com/search/?filter=ut1").get();
-        	String name = doc.select("div.col.tab_item_name").first().text();
+        	String name = doc.select("span.title").first().text();
         	return name;
     	}
     	catch (IOException e) {
