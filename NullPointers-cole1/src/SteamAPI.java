@@ -69,7 +69,7 @@ public class SteamAPI {
 
     private static String action_search( String category ) {
     	try {
-        	Document doc = Jsoup.connect("http://store.steampowered.com/tag/en/" + category + "/#p=0&tab=TopSellers").get();
+        	Document doc = Jsoup.connect("http://store.steampowered.com/tag/en/" + category + "/#p=0&tab=PopularNewReleases").get();
         	String name = doc.select("div.tab_item_name").first().text(); //doc.select("div.col.TopSellersTable.TopSellersRows.tab_item_content.tab_item_name").first().text();  // 
         	
  
@@ -84,6 +84,27 @@ public class SteamAPI {
     		return "action error";
     	}
         
+    }
+
+    public static String narrow_search( String mainCategory, String category ) {
+    	if( category.equals("free to play") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=113&" );
+    	}
+    	else {
+    		return "CategoryNotFound";
+    	}
+    }
+
+    private static String narrow_search2( String mainCategory, String category ) {
+    	try {
+    		Document doc = Jsoup.connect("http://store.steampowered.com/tag/en/" + mainCategory + "/#" + category + "p=0&tab=PopularNewReleases").get();
+    		String name = doc.select("div.tab_item_name").first().text();
+
+    		return name;
+    	}
+    	catch (IOException e) {
+    		return "narrow error";
+    	}
     }
 
     public static String TopTen5DollarGames (  ) {

@@ -19,6 +19,8 @@ import com.amazon.speech.ui.SimpleCard;
 public class SkillResponse implements Speechlet {
     private static final Logger log = LoggerFactory.getLogger(SkillResponse.class);
 
+    public static String categoryN;
+
     @Override
     public void onSessionStarted(final SessionStartedRequest request, final Session session)
             throws SpeechletException {
@@ -59,6 +61,9 @@ public class SkillResponse implements Speechlet {
         else if ("SteamSearchIntent".equals(intentName))
           return steam_search(intent);
 
+        else if ("NarrowSearchIntent".equals(intentName))
+          return narrow_search(intent);
+
         else if ("AssistanceIntent".equals(intentName))
           return respond_with("You can search for a game price, or you can find the top ten dollar game, the top five dollar game, or you can search by category.");
 
@@ -98,6 +103,7 @@ public class SkillResponse implements Speechlet {
 
     private SpeechletResponse search_category(Intent intent) {
       String category_name = intent.getSlot("CategoryName").getValue();
+      categoryN = category_name;
       String game = SteamAPI.search_category(category_name);
       if( game.equals("CategoryNotFound") ) {
         String text = String.format("I'm sorry, I could not find a %s category", category_name);
@@ -108,6 +114,14 @@ public class SkillResponse implements Speechlet {
         return respond_with(text);
       }
       
+    }
+
+    private SpeechletResponse narrow_search(Intent intent) {
+      String category_name = intent.getSlot("category").getValue();
+      String game = SteamAPI.narrow_search(categoryN, category_name);
+
+      String text = String.format("The top %s and %s game is %s.",categoryN, category_name,game);
+      return respond_with(text);
     }
     
     private SpeechletResponse TopTen5DollarGames() {
@@ -129,7 +143,7 @@ public class SkillResponse implements Speechlet {
      * @return SpeechletResponse spoken and visual response for the given intent
      */
     private SpeechletResponse getWelcomeResponse() {
-        String speechText = "Welcome to the steam store, what would you like to do? If you are unsure what to do, ask for help.";
+        String speechText = "Welcome to the steam store, what would you like to do? If you are unsure what to say, ask for help.";
 
         // Create the Simple card content.
         SimpleCard card = new SimpleCard();
