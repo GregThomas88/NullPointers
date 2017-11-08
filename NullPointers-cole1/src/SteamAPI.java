@@ -99,8 +99,38 @@ public class SteamAPI {
       else if( category.equals("adventure") ) {
     		return narrow_search2( mainCategory, "tag%5B%5D=21&" ); 
     	}
-      else if( category.equals("RPG") || category.equals("role playing game")) {
+      else if( category.equals("r.p.g.") || category.equals("role playing game")) {
     		return narrow_search2( mainCategory, "tag%5B%5D=122&" ); 
+    	}
+      else if( category.equals("casual") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=597&" ); 
+    	}
+      else if( category.equals("single player") || category.equals("singleplayer")) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=4182&" ); 
+    	}
+      else if( category.equals("strategy") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=9&" ); 
+    	}
+      else if( category.equals("violent") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=4667&" ); 
+    	}
+      else if( category.equals("gore") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=4345&" ); 
+    	}
+      else if( category.equals("multiplayer") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=3859&" ); 
+    	}
+      else if( category.equals("massively multiplayer") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=128&" ); 
+    	}
+      else if( category.equals("simulation") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=599&" ); 
+    	}
+      else if( category.equals("shooter") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=1774&" ); 
+    	}
+      else if( category.equals("great soundtrack") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=1756&" ); 
     	}
     	else {
     		return "CategoryNotFound";
