@@ -63,10 +63,10 @@ public class SkillResponse implements Speechlet {
 
         else if ("NarrowSearchIntent".equals(intentName))
           return narrow_search(intent);
-
+/*
         else if ("OpenSearch".equals(intentName) ) 
           return ask_user("Alright, what is the name of the game");
-
+*/
         else if ("OpenCategorySearch".equals(intentName) ) 
           return respond_with("Alright, what category do you want to look at");
     
