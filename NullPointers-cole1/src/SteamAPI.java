@@ -144,6 +144,48 @@ public class SteamAPI {
       else if( category.equals("atmospheric") ) {
     		return narrow_search2( mainCategory, "tag%5B%5D=4166&" ); 
     	}
+      else if( category.equals("2D") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=3871&" ); 
+    	}
+      else if( category.equals("difficult") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=4026&" ); 
+    	}
+      else if( category.equals("first person") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=3839&" ); 
+    	}
+      else if( category.equals("scifi") || category.equals("science fiction")) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=3942&" ); 
+    	}
+      else if( category.equals("platformer") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=1625&" ); 
+    	}
+      else if( category.equals("survival") ) {
+    		return narrow_search2( mainCategory, "tag%5B%5D=1662&" ); 
+    	}
+      else if( category.equals("steam achievements") ) {
+    		return narrow_search2( mainCategory, "category%5B%5D=22&" ); 
+    	}
+      else if( category.equals("steam cloud") ) {
+    		return narrow_search2( mainCategory, "category%5B%5D=23&" ); 
+    	}
+      else if( category.equals("steam workshop") ) {
+    		return narrow_search2( mainCategory, "category%5B%5D=30&" ); 
+    	}
+      else if( category.equals("steam trading cards") ) {
+    		return narrow_search2( mainCategory, "category%5B%5D=29&" ); 
+    	}
+      else if( category.equals("full controller support") ) {
+    		return narrow_search2( mainCategory, "category%5B%5D=28&" ); 
+    	}
+      else if( category.equals("windows") ) {
+    		return narrow_search2( mainCategory, "os%5B%5D=win&" ); 
+    	}
+      else if( category.equals("mac") || category.equals("mac os") || category.equals("mac os x")) {
+    		return narrow_search2( mainCategory, "os%5B%5D=mac&" ); 
+    	}
+      else if( category.equals("linux") || category.equals("steamos") || category.equals("steam os")) {
+    		return narrow_search2( mainCategory, "os%5B%5D=mac&" ); 
+    	}
     	else {
     		return "CategoryNotFound";
     	}
