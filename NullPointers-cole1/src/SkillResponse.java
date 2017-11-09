@@ -64,6 +64,12 @@ public class SkillResponse implements Speechlet {
         else if ("NarrowSearchIntent".equals(intentName))
           return narrow_search(intent);
 
+        else if ("OpenSearch".equals(intentName) ) 
+          return ask_user("Alright, what is the name of the game");
+
+        else if ("OpenCategorySearch".equals(intentName) ) 
+          return respond_with("Alright, what category do you want to look at");
+    
         else if ("AssistanceIntent".equals(intentName))
           return respond_with("You can search for a game price, or you can find the top ten dollar game, the top five dollar game, or you can search by category.");
 
@@ -92,6 +98,13 @@ public class SkillResponse implements Speechlet {
       PlainTextOutputSpeech outputSpeech = new PlainTextOutputSpeech();
       outputSpeech.setText(outputText);
       return SpeechletResponse.newTellResponse(outputSpeech);
+    }
+
+    private SpeechletResponse ask_user(String outputText){
+      PlainTextOutputSpeech outputSpeech = new PlainTextOutputSpeech();
+      outputSpeech.setText(outputText);
+      Reprompt reprompt  = new Reprompt();
+      return SpeechletResponse.newAskResponse(outputSpeech,reprompt);
     }
 
     private SpeechletResponse steam_search(Intent intent) {
