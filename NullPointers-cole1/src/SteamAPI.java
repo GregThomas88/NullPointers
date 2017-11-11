@@ -7,12 +7,23 @@ import org.jsoup.select.Elements;
 import org.jsoup.Jsoup;
 
 public class SteamAPI {
-  private static String unsafe_search(String game) throws IOException {
-    Document doc = Jsoup.connect("http://store.steampowered.com/search/?term=" + game + "&category1=998").get();
+  private static String unsafe_search(String game_name) throws IOException {
+
+    String game_name_fixed = "";
+
+    for(int i = 0; i < game_name.length(); i++ ) {
+        if( game_name.charAt(i) == ' ' )
+          game_name_fixed += "%20";
+        else {
+          game_name_fixed += game_name.charAt(i);
+        } 
+    }
+
+    Document doc = Jsoup.connect("http://store.steampowered.com/search/?term=" + game_name_fixed + "&category1=998").get();
     String[] prices = doc.select("div.col.search_price.responsive_secondrow").first().text().split("\\s");
     String price = prices[prices.length-1];
     if (price.indexOf('.')<0)
-      price = "$0.00";
+      price = "nothing, it is free";
     return price;
     }
 
@@ -229,7 +240,17 @@ public class SteamAPI {
 
     public static String getName(String game_name) {
       try {
-        Document doc = Jsoup.connect("http://store.steampowered.com/search/?term=" + game_name + "&category1=998").get();
+
+        String game_name_fixed = "";
+
+        for(int i = 0; i < game_name.length(); i++ ) {
+            if( game_name.charAt(i) == ' ' )
+              game_name_fixed += "%20";
+            else {
+              game_name_fixed += game_name.charAt(i);
+            } 
+        }
+        Document doc = Jsoup.connect("http://store.steampowered.com/search/?term=" + game_name_fixed + "&category1=998").get();
         String name = doc.select("span.title").first().text();
         return name;
       }

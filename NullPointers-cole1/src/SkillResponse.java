@@ -113,7 +113,7 @@ public class SkillResponse implements Speechlet {
       String real_game_name = SteamAPI.getName(game_name);
 
       String price = SteamAPI.search(game_name);
-      String text = String.format("On Steam, %s costs %s.",real_game_name,price);
+      String text = String.format("On Steam, %s costs %s. What would you like to do now", real_game_name,price);
       return ask_user(text);
     }
 
@@ -122,11 +122,11 @@ public class SkillResponse implements Speechlet {
       categoryN = category_name;
       String game = SteamAPI.search_category(category_name);
       if( game.equals("CategoryNotFound") ) {
-        String text = String.format("I'm sorry, I could not find a %s category", category_name);
+        String text = String.format("I'm sorry, I could not find a %s category. What would you like to do now", category_name);
           return ask_user(text);
       }
       else {
-        String text = String.format("The top %s game is %s.",category_name,game);
+        String text = String.format("The top %s game is %s. What would you like to do now",category_name,game);
         return ask_user(text);
       }
       
@@ -136,19 +136,26 @@ public class SkillResponse implements Speechlet {
       String category_name = intent.getSlot("category").getValue();
       String game = SteamAPI.narrow_search(categoryN, category_name);
 
-      String text = String.format("The top %s and %s game is %s.",categoryN, category_name,game);
-      return ask_user(text);
+      if( game.equals("CategoryNotFound") ) {
+        String text = String.format("I'm sorry, I could not find a %s category. What would you like to do now", category_name);
+        return ask_user(text);
+      }
+      else {
+        String text = String.format("The top %s and %s game is %s. What would you like to do now",categoryN, category_name,game);
+        return ask_user(text);
+      }
+      
     }
     
     private SpeechletResponse TopTen5DollarGames() {
         String game = SteamAPI.TopTen5DollarGames();
-        String text = String.format("The top 5 dollar game is %s.",game);
+        String text = String.format("The top 5 dollar game is %s. What would you like to do now",game);
         return ask_user(text);
     }
     
     private SpeechletResponse TopTen10DollarGames() {
         String game = SteamAPI.TopTen10DollarGames();
-        String text = String.format("The top 10 dollar game is %s.",game);
+        String text = String.format("The top 10 dollar game is %s. What would you like to do now",game);
         return ask_user(text);
     }
     
