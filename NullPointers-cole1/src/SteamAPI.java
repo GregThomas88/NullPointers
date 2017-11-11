@@ -227,5 +227,16 @@ public class SteamAPI {
         
     }
 
+    public static String getName(String game_name) {
+      try {
+        Document doc = Jsoup.connect("http://store.steampowered.com/search/?term=" + game_name + "&category1=998").get();
+        String name = doc.select("span.title").first().text();
+        return name;
+      }
+      catch (IOException e) {
+        return "game name error";
+      }
+    }
+
 
 }

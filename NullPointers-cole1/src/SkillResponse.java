@@ -47,7 +47,7 @@ public class SkillResponse implements Speechlet {
         String intentName = (intent != null) ? intent.getName() : null;
 
         if ("HelloWorldIntent".equals(intentName))
-          return respond_with("Hello!");
+          return ask_user("Hello!");
 
         else if ("CategorySearchIntent".equals(intentName))
           return search_category(intent);
@@ -63,24 +63,24 @@ public class SkillResponse implements Speechlet {
 
         else if ("NarrowSearchIntent".equals(intentName))
           return narrow_search(intent);
-/*
+
         else if ("OpenSearch".equals(intentName) ) 
           return ask_user("Alright, what is the name of the game");
-*/
+
         else if ("OpenCategorySearch".equals(intentName) ) 
-          return respond_with("Alright, what category do you want to look at");
+          return ask_user("Alright, what category do you want to look at");
     
         else if ("AssistanceIntent".equals(intentName))
-          return respond_with("You can search for a game price, or you can find the top ten dollar game, the top five dollar game, or you can search by category.");
+          return ask_user("You can search for a game price, or you can find the top ten dollar game, the top five dollar game, or you can search by category.");
 
         else if ("AMAZON.HelpIntent".equals(intentName))
-          return respond_with("Ask me how much a game costs");
+          return ask_user("Ask me how much a game costs");
 
         else if ("AMAZON.StopIntent".equals(intentName))
-            return respond_with("bye!");
+            return respond_with("good bye!");
 
         else if ("AMAZON.CancelIntent".equals(intentName))
-            return respond_with("bye.");
+            return ask_user("okay");
 
         else
             throw new SpeechletException("Invalid Intent");
@@ -109,9 +109,12 @@ public class SkillResponse implements Speechlet {
 
     private SpeechletResponse steam_search(Intent intent) {
       String game_name = intent.getSlot("GameName").getValue();
+
+      String real_game_name = SteamAPI.getName(game_name);
+
       String price = SteamAPI.search(game_name);
-      String text = String.format("On Steam, %s costs %s.",game_name,price);
-      return respond_with(text);
+      String text = String.format("On Steam, %s costs %s.",real_game_name,price);
+      return ask_user(text);
     }
 
     private SpeechletResponse search_category(Intent intent) {
@@ -120,11 +123,11 @@ public class SkillResponse implements Speechlet {
       String game = SteamAPI.search_category(category_name);
       if( game.equals("CategoryNotFound") ) {
         String text = String.format("I'm sorry, I could not find a %s category", category_name);
-          return respond_with(text);
+          return ask_user(text);
       }
       else {
         String text = String.format("The top %s game is %s.",category_name,game);
-        return respond_with(text);
+        return ask_user(text);
       }
       
     }
@@ -134,19 +137,19 @@ public class SkillResponse implements Speechlet {
       String game = SteamAPI.narrow_search(categoryN, category_name);
 
       String text = String.format("The top %s and %s game is %s.",categoryN, category_name,game);
-      return respond_with(text);
+      return ask_user(text);
     }
     
     private SpeechletResponse TopTen5DollarGames() {
         String game = SteamAPI.TopTen5DollarGames();
         String text = String.format("The top 5 dollar game is %s.",game);
-        return respond_with(text);
+        return ask_user(text);
     }
     
     private SpeechletResponse TopTen10DollarGames() {
         String game = SteamAPI.TopTen10DollarGames();
         String text = String.format("The top 10 dollar game is %s.",game);
-        return respond_with(text);
+        return ask_user(text);
     }
     
     
