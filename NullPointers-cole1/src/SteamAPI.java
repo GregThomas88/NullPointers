@@ -19,13 +19,19 @@ public class SteamAPI {
         } 
     }
 
-    Document doc = Jsoup.connect("http://store.steampowered.com/search/?term=" + game_name_fixed + "&category1=998").get();
-    String[] prices = doc.select("div.col.search_price.responsive_secondrow").first().text().split("\\s");
-    String price = prices[prices.length-1];
-    if (price.indexOf('.')<0)
-      price = "nothing, it is free";
-    return price;
+    try {
+      Document doc = Jsoup.connect("http://store.steampowered.com/search/?term=" + game_name_fixed + "&category1=998").get();
+      String[] prices = doc.select("div.col.search_price.responsive_secondrow").first().text().split("\\s");
+      String price = prices[prices.length-1];
+      if (price.indexOf('.')<0)
+        price = "nothing, it is free";
+      return price;
     }
+    catch (IOException e) {
+      return "GameNotFound";
+    }
+
+  }
 
   public static String search(String game){
     try {

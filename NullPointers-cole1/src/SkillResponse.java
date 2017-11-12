@@ -113,8 +113,17 @@ public class SkillResponse implements Speechlet {
       String real_game_name = SteamAPI.getName(game_name);
 
       String price = SteamAPI.search(game_name);
-      String text = String.format("On Steam, %s costs %s. What would you like to do now", real_game_name,price);
-      return ask_user(text);
+
+      if( price.equals("GameNotFound") ) {
+        String text = String.format("Game not found");
+        return ask_user(text);
+      }
+      else {
+        String text = String.format("On Steam, %s costs %s. What would you like to do now", real_game_name,price);
+        return ask_user(text);
+      }
+
+      
     }
 
     private SpeechletResponse search_category(Intent intent) {
@@ -122,7 +131,7 @@ public class SkillResponse implements Speechlet {
       categoryN = category_name;
       String game = SteamAPI.search_category(category_name);
       if( game.equals("CategoryNotFound") ) {
-        String text = String.format("I'm sorry, I could not find a %s category. What would you like to do now", category_name);
+        String text = String.format("I'm sorry, I could not find %s category. What would you like to do now", category_name);
           return ask_user(text);
       }
       else {
@@ -137,7 +146,7 @@ public class SkillResponse implements Speechlet {
       String game = SteamAPI.narrow_search(categoryN, category_name);
 
       if( game.equals("CategoryNotFound") ) {
-        String text = String.format("I'm sorry, I could not find a %s category. What would you like to do now", category_name);
+        String text = String.format("I'm sorry, I could not find a game for %s and %s categories. What would you like to do now", categoryN, category_name);
         return ask_user(text);
       }
       else {
