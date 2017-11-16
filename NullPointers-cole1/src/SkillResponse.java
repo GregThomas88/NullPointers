@@ -20,6 +20,10 @@ public class SkillResponse implements Speechlet {
     private static final Logger log = LoggerFactory.getLogger(SkillResponse.class);
 
     public static String categoryN;
+    public static String categoryN2;
+    public static String lastFunc = "";
+    public static int i = 0;
+    public static String glob_game_name;
 
     @Override
     public void onSessionStarted(final SessionStartedRequest request, final Session session)
@@ -73,6 +77,12 @@ public class SkillResponse implements Speechlet {
         else if ("AssistanceIntent".equals(intentName))
           return ask_user("You can search for a game price, or you can find the top ten dollar game, the top five dollar game, or you can search by category.");
 
+        else if ("AMAZON.NextIntent".equals(intentName))
+            return next();
+
+        else if ("AMAZON.PreviousIntent".equals(intentName))
+          return previous();
+
         else if ("AMAZON.HelpIntent".equals(intentName))
           return ask_user("Ask me how much a game costs");
 
@@ -108,11 +118,19 @@ public class SkillResponse implements Speechlet {
     }
 
     private SpeechletResponse steam_search(Intent intent) {
+
+      i = 0;
+      lastFunc = "priceSearch";
+
+
       String game_name = intent.getSlot("GameName").getValue();
+      glob_game_name = game_name;
 
-      String real_game_name = SteamAPI.getName(game_name);
+      String real_game_name = SteamAPI.getName(game_name, i);
 
-      String price = SteamAPI.search(game_name);
+      String price = SteamAPI.search(game_name, i);
+
+
 
       if( price.equals("GameNotFound") ) {
         String text = String.format("Game not found");
@@ -129,7 +147,9 @@ public class SkillResponse implements Speechlet {
     private SpeechletResponse search_category(Intent intent) {
       String category_name = intent.getSlot("CategoryName").getValue();
       categoryN = category_name;
-      String game = SteamAPI.search_category(category_name);
+      lastFunc = "category";
+      i = 0;
+      String game = SteamAPI.search_category(category_name, i);
       if( game.equals("CategoryNotFound") ) {
         String text = String.format("I'm sorry, I could not find %s category. What would you like to do now", category_name);
           return ask_user(text);
@@ -142,8 +162,15 @@ public class SkillResponse implements Speechlet {
     }
 
     private SpeechletResponse narrow_search(Intent intent) {
+
+      i = 0;
+      lastFunc = "NarrowSearch";
+
       String category_name = intent.getSlot("category").getValue();
-      String game = SteamAPI.narrow_search(categoryN, category_name);
+
+      categoryN2 = category_name;
+
+      String game = SteamAPI.narrow_search(categoryN, category_name, i);
 
       if( game.equals("CategoryNotFound") ) {
         String text = String.format("I'm sorry, I could not find a game for %s and %s categories. What would you like to do now", categoryN, category_name);
@@ -155,17 +182,105 @@ public class SkillResponse implements Speechlet {
       }
       
     }
-    
-    private SpeechletResponse TopTen5DollarGames() {
-        String game = SteamAPI.TopTen5DollarGames();
+
+    private SpeechletResponse next() {
+
+      i += 1;
+
+      if( lastFunc == "category" ) {
+        String game = SteamAPI.search_category(categoryN, i);
+        String text = String.format("The next game is %s", game);
+        return ask_user(text);
+      }
+      else if( lastFunc == "Top5Dollar") {
+        String game = SteamAPI.TopTen5DollarGames(i);
         String text = String.format("The top 5 dollar game is %s. What would you like to do now",game);
         return ask_user(text);
+      }
+      else if ( lastFunc == "Top10Dollar") {
+        String game = SteamAPI.TopTen10DollarGames(i);
+        String text = String.format("The top 10 dollar game is %s. What would you like to do now",game);
+        return ask_user(text);
+      }
+      else if ( lastFunc == "priceSearch") {
+        String real_game_name = SteamAPI.getName(glob_game_name, i);
+        String price = SteamAPI.search(glob_game_name, i);
+        String text = String.format("On Steam, %s costs %s. What would you like to do now", real_game_name,price);
+        return ask_user(text);
+      }
+      else if( lastFunc == "narrow_search") {
+        String game = SteamAPI.narrow_search(categoryN, categoryN2, i);
+        String text = String.format("The top %s and %s game is %s. What would you like to do now",categoryN, categoryN2,game);
+        return ask_user(text);
+      }
+      else {
+        return ask_user("Sorry, you have not specified a search yet");
+      }
+      
+
+
+
+    }
+
+    private SpeechletResponse previous() {
+      
+      if( i == 0 ) {
+        return ask_user("Cannot find previous game");
+      }
+
+      i -= 1;
+
+      
+      if( lastFunc == "category" ) {
+        String game = SteamAPI.search_category(categoryN, i);
+        String text = String.format("The next game is %s", game);
+        return ask_user(text);
+      }
+      else if( lastFunc == "Top5Dollar") {
+        String game = SteamAPI.TopTen5DollarGames(i);
+        String text = String.format("The top 5 dollar game is %s. What would you like to do now",game);
+        return ask_user(text);
+      }
+      else if ( lastFunc == "Top10Dollar") {
+        String game = SteamAPI.TopTen10DollarGames(i);
+        String text = String.format("The top 10 dollar game is %s. What would you like to do now",game);
+        return ask_user(text);
+      }
+      else if ( lastFunc == "priceSearch") {
+        String real_game_name = SteamAPI.getName(glob_game_name, i);
+        String price = SteamAPI.search(glob_game_name, i);
+        String text = String.format("On Steam, %s costs %s. What would you like to do now", real_game_name,price);
+        return ask_user(text);
+      }
+      else if( lastFunc == "narrow_search") {
+        String game = SteamAPI.narrow_search(categoryN, categoryN2, i);
+        String text = String.format("The top %s and %s game is %s. What would you like to do now",categoryN, categoryN2,game);
+        return ask_user(text);
+      }
+      else {
+        return ask_user("Sorry, you have not specified a search yet");
+      }
+
+
+
+    }
+      
+    
+    
+    private SpeechletResponse TopTen5DollarGames() {
+      i = 0;
+      lastFunc = "Top5Dollar";
+      String game = SteamAPI.TopTen5DollarGames(i);
+      String text = String.format("The top 5 dollar game is %s. What would you like to do now",game);
+      return ask_user(text);
     }
     
     private SpeechletResponse TopTen10DollarGames() {
-        String game = SteamAPI.TopTen10DollarGames();
-        String text = String.format("The top 10 dollar game is %s. What would you like to do now",game);
-        return ask_user(text);
+      i = 0;
+      lastFunc = "Top10Dollar";
+      String game = SteamAPI.TopTen10DollarGames(i);
+      String text = String.format("The top 10 dollar game is %s. What would you like to do now",game);
+      return ask_user(text);
     }
     
     
